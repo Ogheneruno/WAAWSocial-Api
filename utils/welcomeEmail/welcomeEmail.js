@@ -1,4 +1,4 @@
-const sendEmail = require('../config/mailer');
+const sendEmail = require('../../config/mailer');
 
 const welcomeEmail = async (req, username, email, secretToken) => {
     const html = `

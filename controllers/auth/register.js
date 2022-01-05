@@ -1,6 +1,6 @@
-const {User} = require('../../models/User');
+const { User } = require('../../models/User');
 const bcryptjs = require('bcryptjs');
-// const welcomeEmail = require('../../utils/WelcomeEmail');
+const welcomeEmail = require('../../utils/welcomeEmail/welcomeEmail');
 const randomstring = require('randomstring');
 
 const createNewUser = async (req, res, next) => {
@@ -29,9 +29,9 @@ const createNewUser = async (req, res, next) => {
         });
 
         await newUser.save();
-        if(!newUser) return res.status(500).json({msg: 'An error has occurred'});
+        if(!newUser) return res.status(500).json({success: false, msg: 'An error has occurred'});
 
-        // await welcomeEmail(req, newUser.username, newUser.email, newUser.secretToken);
+        await welcomeEmail(req, newUser.username, newUser.email, newUser.secretToken);
 
         res.status(201).json({
             success: true,
@@ -41,7 +41,7 @@ const createNewUser = async (req, res, next) => {
 
 
     } catch (err) {
-        return res.status(500).json({message: err.message})
+        return res.status(500).json({success: false, msg: err.message})
     }
 }
 
